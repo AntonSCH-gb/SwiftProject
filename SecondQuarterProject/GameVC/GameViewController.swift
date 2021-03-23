@@ -17,14 +17,11 @@ class GameViewController: UIViewController {
     
     var questionForScreen: Question?
     
+    @IBOutlet var currentSessionStatus: UILabel!
     @IBOutlet weak var questionLabel: UILabel!
-    
     @IBOutlet weak var firstButton: UIButton!
-    
     @IBOutlet weak var secondButton: UIButton!
-    
     @IBOutlet weak var thirdButton: UIButton!
-    
     @IBOutlet weak var fourthButton: UIButton!
     
     
@@ -44,9 +41,14 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        GameSingleton.shared.session!.wrightAnswersCount.addObserver(self, options: [.new, .initial], closure: { [weak self] (wrightCount, _) in
+            let text = "Вопрос \(wrightCount)/\(GameSingleton.shared.session!.questionsInSession). Правильных ответов: \(wrightCount * 100 / (GameSingleton.shared.session!.questionsInSession))%"
+            self?.currentSessionStatus.text = text
+        })
         setQuestionToVC()
-        // Do any additional setup after loading the view.
     }
+    
+    
     
     func setQuestionToVC() {
         questionForScreen = GameSingleton.shared.session?.currentQuestion
@@ -63,15 +65,23 @@ class GameViewController: UIViewController {
         guard buttonLabelText != "", let nextStep = GameSingleton.shared.session?.checkAnswerAndGoNext(answer: buttonLabelText) else { return }
         switch nextStep {
         case (true, false):
-            showAlert(textForAlert: "Верно! У тебя уже \(GameSingleton.shared.session!.wrightAnswersCount) баллов. Переходим к следующему", dismissGameVC: false)
+            
+            let alertText = "Верно! У тебя уже \(GameSingleton.shared.session!.wrightAnswersCount.value) баллов. Переходим к следующему"
+            
+            showAlert(textForAlert: alertText, dismissGameVC: false)
+            
             setQuestionToVC()
+            
         case (true, true):
             
-            showAlert(textForAlert: "Гениально! Ты победил и заработал \(GameSingleton.shared.session!.wrightAnswersCount) баллов", dismissGameVC: true)
+            let alertText = "Гениально! Ты победил и заработал \(GameSingleton.shared.session!.wrightAnswersCount.value) баллов"
+            showAlert(textForAlert: alertText, dismissGameVC: true)
 
         case (false, true):
             
-            showAlert(textForAlert: "Ответ не верный. Игра закончена со счетом \(GameSingleton.shared.session!.wrightAnswersCount) баллов", dismissGameVC: true)
+            let alertText = "Ответ не верный. Игра закончена со счетом \(GameSingleton.shared.session!.wrightAnswersCount.value) баллов"
+            
+            showAlert(textForAlert: alertText, dismissGameVC: true)
 
         default:
             print("текущего вопроса нет в переменной")
@@ -83,7 +93,7 @@ class GameViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: {_ in
             if dismissGameVC {
                 let date  = Date()
-                let score = GameSingleton.shared.session!.wrightAnswersCount
+                let score = GameSingleton.shared.session!.wrightAnswersCount.value
                 let percent = score / GameSingleton.shared.session!.questionsInSession * 10
                 let record = Record(date: date, score: score, persent: percent)
                 self.gameVCDelegate?.didEndGame(with: record)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Question {
+struct Question: Codable {
     let question: String
     var whriteAnswer: String
 //    var firstWrongAnswer: String
@@ -16,9 +16,11 @@ struct Question {
     var answers: [String]
 }
 
-/// Источник вопросов https://1gai.ru/baza-znaniy/526308-50-interesnyh-voprosov-dlja-detej.html
+// Источник вопросов https://1gai.ru/baza-znaniy/526308-50-interesnyh-voprosov-dlja-detej.html
 
-let questions: [Question] = [
+var questions: [Question] = []
+
+let defaultQuestionsBase: [Question] = [
     Question(question: "Какое сухопутное животное может открыть рот максимально широко?", whriteAnswer: "Бегемот", answers: ["Бегемот", "Бабуин", "Крокодил", "Аллигатор"]),
     Question(question: "Какое животное самое крупное на Земле?", whriteAnswer: "Синий кит", answers: ["Гигантский кальмар", "Синий кит", "Кашалот", "Африканский слон"]),
     Question(question: "Какое млекопитающее умеет летать?", whriteAnswer: "Летучая мышь", answers: ["Колуго", "Белоголовый орлан", "Летучая мышь", "Белка-летяга"]),

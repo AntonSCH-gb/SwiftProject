@@ -14,7 +14,13 @@ class StartViewController: UIViewController{
     private let showRecordsSegueIdentifier = "ScoreSegue"
     
     @IBAction func startGame(_ sender: UIButton) {
-        GameSingleton.shared.session = GameSession(questions: questions)
+        let careTaker = MementoCaretaker()
+        questions = careTaker.loadQuestions()
+        guard let shuffled = GameSingleton.shared.settings[.ShuffleQuestion], let session = GameSession(questions: questions, shuffled: shuffled) else { return }
+        //наличие вопросов в массиве проверяется инициализатором сессии
+        
+        GameSingleton.shared.session = session
+        
         performSegue(withIdentifier: startGameSegueIdentifier, sender: self)
     }
     @IBAction func showScores(_ sender: UIButton) {
@@ -37,9 +43,11 @@ class StartViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         if let lastResult = GameSingleton.shared.records.last {
-            lastResultLabel.text = "Последняя игра \(lastResult.date).\n Pезультат: \(lastResult.score) очков и \(lastResult.persent)% правильных ответов"
+            let text = "Последняя игра \(lastResult.date).\n Результат: \(lastResult.score) (\(lastResult.persent)%) правильных ответов"
+            lastResultLabel.text = text
         } else {
-            lastResultLabel.text = "Пока нет результатов"
+            let text = "Пока нет результатов"
+            lastResultLabel.text = text
         }
 
     }
@@ -49,7 +57,8 @@ class StartViewController: UIViewController{
 extension StartViewController: GameViewControllerDelegate {
  
     func didEndGame(with score: Record) {
-        lastResultLabel.text = "Последняя игра \(score.date).\n Pезультат: \(score.score) очков и \(score.persent)% правильных ответов"
+        let text = "Последняя игра \(score.date).\n Pезультат: \(score.score) (\(score.persent)%) правильных ответов"
+        lastResultLabel.text = text
         GameSingleton.shared.addRecord(score)
         GameSingleton.shared.session = nil
     }
