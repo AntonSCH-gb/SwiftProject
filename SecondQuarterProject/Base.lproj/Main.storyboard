@@ -335,28 +335,28 @@
                                 <rect key="frame" x="20" y="682" width="374" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="firstAnswerButton:" destination="gIP-6h-aLh" eventType="touchUpInside" id="MyY-dC-3Ed"/>
+                                    <action selector="anyAnswerButtonAction:" destination="gIP-6h-aLh" eventType="touchUpInside" id="ZL4-Rl-M5y"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SN2-9K-QeS">
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SN2-9K-QeS">
                                 <rect key="frame" x="20" y="722" width="374" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="secondAnswerButton:" destination="gIP-6h-aLh" eventType="touchUpInside" id="Cxq-6A-Mhh"/>
+                                    <action selector="anyAnswerButtonAction:" destination="gIP-6h-aLh" eventType="touchUpInside" id="40y-XB-cI0"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i6S-tx-sWg">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i6S-tx-sWg">
                                 <rect key="frame" x="20" y="762" width="374" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="thirdAnswerButton:" destination="gIP-6h-aLh" eventType="touchUpInside" id="caa-hb-DGe"/>
+                                    <action selector="anyAnswerButtonAction:" destination="gIP-6h-aLh" eventType="touchUpInside" id="cdO-jY-USy"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G2M-1d-JXn">
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G2M-1d-JXn">
                                 <rect key="frame" x="20" y="802" width="374" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="fourthAnswerButton:" destination="gIP-6h-aLh" eventType="touchUpInside" id="DoJ-o8-9Jg"/>
+                                    <action selector="anyAnswerButtonAction:" destination="gIP-6h-aLh" eventType="touchUpInside" id="UbP-Re-P5d"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TbR-QP-R6Z">
@@ -396,11 +396,11 @@
                     <navigationItem key="navigationItem" id="yZR-ew-Sb2"/>
                     <connections>
                         <outlet property="currentSessionStatus" destination="TbR-QP-R6Z" id="jIb-tE-96M"/>
-                        <outlet property="firstButton" destination="Z9G-fR-Ik2" id="j8m-8V-Pej"/>
-                        <outlet property="fourthButton" destination="G2M-1d-JXn" id="b5c-O0-6dL"/>
                         <outlet property="questionLabel" destination="qLp-Au-QD2" id="sfe-jb-GEp"/>
-                        <outlet property="secondButton" destination="SN2-9K-QeS" id="NMa-g3-yLC"/>
-                        <outlet property="thirdButton" destination="i6S-tx-sWg" id="Z2v-6K-83I"/>
+                        <outletCollection property="answerButtonsArray" destination="Z9G-fR-Ik2" collectionClass="NSMutableArray" id="DEg-he-INV"/>
+                        <outletCollection property="answerButtonsArray" destination="SN2-9K-QeS" collectionClass="NSMutableArray" id="Qyv-eX-5Ld"/>
+                        <outletCollection property="answerButtonsArray" destination="i6S-tx-sWg" collectionClass="NSMutableArray" id="cRP-Iz-yA4"/>
+                        <outletCollection property="answerButtonsArray" destination="G2M-1d-JXn" collectionClass="NSMutableArray" id="6gM-w8-Txw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q21-NR-1zz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

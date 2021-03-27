@@ -10,9 +10,6 @@ import Foundation
 struct Question: Codable {
     let question: String
     var whriteAnswer: String
-//    var firstWrongAnswer: String
-//    var secondWrongAnswer: String
-//    var thirdWrongAnswer: String
     var answers: [String]
 }
 

@@ -18,26 +18,17 @@ class GameViewController: UIViewController {
     var questionForScreen: Question?
     
     @IBOutlet var currentSessionStatus: UILabel!
+    
     @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var firstButton: UIButton!
-    @IBOutlet weak var secondButton: UIButton!
-    @IBOutlet weak var thirdButton: UIButton!
-    @IBOutlet weak var fourthButton: UIButton!
     
+    @IBOutlet var answerButtonsArray: [UIButton]!
     
-    
-    @IBAction func firstAnswerButton(_ sender: UIButton) {
-        answer(buttonLabelText: firstButton.titleLabel?.text ?? "")
-    }
-    @IBAction func secondAnswerButton(_ sender: UIButton) {
-        answer(buttonLabelText: secondButton.titleLabel?.text ?? "")
-    }
-    @IBAction func thirdAnswerButton(_ sender: UIButton) {
-        answer(buttonLabelText: thirdButton.titleLabel?.text ?? "")
-    }
-    @IBAction func fourthAnswerButton(_ sender: UIButton) {
-        answer(buttonLabelText: fourthButton.titleLabel?.text ?? "")
-    }
+    @IBAction func anyAnswerButtonAction(_ sender: Any) {
+        guard let button = sender as? UIButton else { return }
+        
+        answer(buttonLabelText: button.titleLabel?.text ?? "")
+        
+            }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,11 +45,9 @@ class GameViewController: UIViewController {
         questionForScreen = GameSingleton.shared.session?.currentQuestion
         guard var questionForScreen = self.questionForScreen else { return }
         questionLabel.text = questionForScreen.question
-        firstButton.setTitle(questionForScreen.answers.remove(at: Int.random(in: 0..<questionForScreen.answers.count)), for: .normal)
-        secondButton.setTitle(questionForScreen.answers.remove(at: Int.random(in: 0..<questionForScreen.answers.count)), for: .normal)
-        thirdButton.setTitle(questionForScreen.answers.remove(at: Int.random(in: 0..<questionForScreen.answers.count)), for: .normal)
-        fourthButton.setTitle(questionForScreen.answers.remove(at: Int.random(in: 0..<questionForScreen.answers.count)), for: .normal)
-        
+        for button in answerButtonsArray {
+            button.setTitle(questionForScreen.answers.remove(at: Int.random(in: 0..<questionForScreen.answers.count)), for: .normal)
+        }
     }
     
     func answer (buttonLabelText: String) {
@@ -89,8 +78,13 @@ class GameViewController: UIViewController {
     }
 
     func showAlert (textForAlert: String, dismissGameVC: Bool) {
+        
         let alert = UIAlertController(title: textForAlert, message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: {_ in
+        
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { [weak self] _ in
+            
+            guard let self = self else { return }
+            
             if dismissGameVC {
                 let date  = Date()
                 let score = GameSingleton.shared.session!.wrightAnswersCount.value
@@ -102,15 +96,5 @@ class GameViewController: UIViewController {
         }))
         self.present(alert, animated: true)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

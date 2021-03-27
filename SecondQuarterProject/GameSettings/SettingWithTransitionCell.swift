@@ -17,7 +17,6 @@ class SettingWithTransitionCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     func setCell (setting name: SettingsWithTransition) {
