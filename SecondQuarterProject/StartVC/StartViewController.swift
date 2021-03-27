@@ -13,6 +13,8 @@ class StartViewController: UIViewController{
     private let startGameSegueIdentifier = "StartSegue"
     private let showRecordsSegueIdentifier = "ScoreSegue"
     
+    let dateFormatter = DateFormatter()
+    
     @IBAction func startGame(_ sender: UIButton) {
         let careTaker = MementoCaretaker()
         questions = careTaker.loadQuestions()
@@ -42,8 +44,14 @@ class StartViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.dateFormat = "dd MMM yyyy"
+        
         if let lastResult = GameSingleton.shared.records.last {
-            let text = "Последняя игра \(lastResult.date).\n Результат: \(lastResult.score) (\(lastResult.persent)%) правильных ответов"
+            
+            let text = "Последняя игра \(dateFormatter.string(from: lastResult.date)).\n Результат: \(lastResult.score) (\(lastResult.persent)%) правильных ответов"
+            
             lastResultLabel.text = text
         } else {
             let text = "Пока нет результатов"
@@ -57,7 +65,7 @@ class StartViewController: UIViewController{
 extension StartViewController: GameViewControllerDelegate {
  
     func didEndGame(with score: Record) {
-        let text = "Последняя игра \(score.date).\n Pезультат: \(score.score) (\(score.persent)%) правильных ответов"
+        let text = "Последняя игра \(dateFormatter.string(from: score.date)).\n Pезультат: \(score.score) (\(score.persent)%) правильных ответов"
         lastResultLabel.text = text
         GameSingleton.shared.addRecord(score)
         GameSingleton.shared.session = nil
