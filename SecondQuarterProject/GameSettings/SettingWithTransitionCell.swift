@@ -23,22 +23,5 @@ class SettingWithTransitionCell: UITableViewCell {
         cellSetting = name
         cellLabel.text = settingsWithTransition[name]
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        if let cellSetting = cellSetting, selected {
-            switch cellSetting {
-            case .addUserQuestion:
-                self.window?.rootViewController?.dismiss(animated: true, completion: {
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let addQuestionViewController = storyboard.instantiateViewController(withIdentifier: "AddQuestionViewController") as! AddQuestionViewController
-                    let currentViewController = UIApplication.shared.windows.first!.rootViewController
-                    addQuestionViewController.modalPresentationStyle = .fullScreen
-                    currentViewController?.present(addQuestionViewController, animated: true, completion: nil)
-                })
-        }
-
-    }
-
-}
+    
 }

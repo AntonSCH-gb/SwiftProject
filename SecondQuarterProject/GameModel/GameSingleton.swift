@@ -11,19 +11,29 @@ class GameSingleton {
     
     static let shared = GameSingleton()
     
-    var session: GameSession?
+    var session: GameSession!
+    
+    let dateFormatter = DateFormatter()
     
     private(set) var records: [Record] {
         didSet {
-            caretakerMemento.saveRecords(records: records)
+            careTakerMemento.saveParameter(parametr: records)
+        }
+    }
+    
+    private(set) var settings: [GamePlaySettings : Bool] {
+        didSet {
+            careTakerMemento.saveParameter(parametr: settings)
         }
     }
 
-    private let caretakerMemento = MementoCaretaker()
+    private let careTakerMemento = MementoCaretaker()
 
     private init() {
-        records = caretakerMemento.loadRecords()
-        settings = caretakerMemento.loadSettings()
+        records = careTakerMemento.loadParameter(defaultValue: [Record]())
+        settings = careTakerMemento.loadParameter(defaultValue: defaultSettings)
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.dateFormat = "dd MMM yyyy HH:MM"
     }
 
     func addRecord(_ record: Record) {
@@ -33,18 +43,11 @@ class GameSingleton {
     func clearRecords() {
         records.removeAll()
     }
-    
-    private(set) var settings: [GamePlaySettings : Bool] {
-        didSet {
-            caretakerMemento.saveSettings(settings: settings)
-        }
-    }
 
     func changeSettingState (settingCase: GamePlaySettings) -> Void {
         guard let value = settings[settingCase] else { return }
         settings[settingCase] = value ? false : true
     }
-    
 }
 
 

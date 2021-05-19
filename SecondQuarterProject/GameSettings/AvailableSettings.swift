@@ -8,17 +8,16 @@
 import Foundation
 
 enum GamePlaySettings : String, Codable {
-    case ShuffleQuestion
+    case shuffleQuestion
 }
 
 let defaultSettings = [
-    GamePlaySettings.ShuffleQuestion : false
+    GamePlaySettings.shuffleQuestion : false
 ]
 
 enum  SettingsWithTransition: String, Codable {
     case addUserQuestion
 }
-
 
 let settingsWithTransition: [SettingsWithTransition : String] = [
     SettingsWithTransition.addUserQuestion : "Добавить свой вопрос"

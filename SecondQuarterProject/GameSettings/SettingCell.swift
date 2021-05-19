@@ -41,7 +41,7 @@ class SettingCell: UITableViewCell {
         }
         cellSetting = name
         switch name {
-        case .ShuffleQuestion:
+        case .shuffleQuestion:
             settingLabel.text = "Перемешать вопросы"
             switcher.isOn = settingState
         }

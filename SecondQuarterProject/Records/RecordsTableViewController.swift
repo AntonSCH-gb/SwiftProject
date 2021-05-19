@@ -13,23 +13,18 @@ class RecordsTableViewController: UITableViewController {
         super.viewDidLoad()
     }
 
-   
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return GameSingleton.shared.records.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.reuseIdentifier, for: indexPath) as! RecordsTableViewCell
-        cell.isUserInteractionEnabled = false
-
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "RecCell")
+        
         let record = GameSingleton.shared.records[indexPath.row]
         
-        cell.dateLabel.text = record.date.description
-        cell.scoreLabel.text = "score: \(record.score) (\(record.persent)%)"
+        cell.textLabel?.text = GameSingleton.shared.dateFormatter.string(from: record.date)
+        cell.detailTextLabel?.text = "score: \(record.score) (\(record.persent)%)"
+        
         return cell
     }
-
-
 }
