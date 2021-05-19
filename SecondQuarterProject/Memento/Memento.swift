@@ -11,75 +11,71 @@ class MementoCaretaker {
     
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
-    private let keyForRecords = "RecordsOfGame"
-    private let keyForSettings = "GameSettings"
-    private let keyForQuestions = "GameQuestions"
+    private enum Keys: String {
+        case records = "RecordsOfGame"
+        case settings = "GameSettings"
+        case questions = "GameQuestions"
+    }
     
-    func saveRecords(records: [Record]) {
-        do {
-            let data: Memento = try encoder.encode(records)
-            UserDefaults.standard.setValue(data, forKey: keyForRecords)
-        } catch {
-            print(error.localizedDescription)
+    func saveParameter <T: Codable> (parametr: T) {
+        switch parametr {
+        case let param as Array<Record>:
+            do {
+                let data: Memento = try encoder.encode(param)
+                UserDefaults.standard.setValue(data, forKey: Keys.records.rawValue)
+            } catch {
+                print(error.localizedDescription)
+            }
+        case let param as Dictionary<GamePlaySettings, Bool>:
+            do {
+                let data: Memento = try encoder.encode(param)
+                UserDefaults.standard.setValue(data, forKey: Keys.settings.rawValue)
+            } catch {
+                print(error.localizedDescription)
+            }
+        case let param as Array<Question>:
+            do {
+                let data: Memento = try encoder.encode(param)
+                UserDefaults.standard.setValue(data, forKey: Keys.questions.rawValue)
+            } catch {
+                print(error.localizedDescription)
+            }
+        default:
+            print("Memento is not tuned for that parameter type: \(type(of: parametr))")
         }
     }
     
-    func loadRecords() -> [Record] {
-        guard let data: Memento = UserDefaults.standard.data(forKey: keyForRecords) else {
-            return []
+    func loadParameter<T>(defaultValue value: T) -> T {
+        var param: T = value
+        switch param {
+        
+        case _ as Array<Record>:
+            guard let data: Memento = UserDefaults.standard.data(forKey: Keys.records.rawValue) else { return value }
+            do {
+                param = try decoder.decode([Record].self, from: data) as! T
+            } catch {
+                print(error.localizedDescription)
+            }
+        case _ as Dictionary<GamePlaySettings, Bool>:
+            guard let data: Memento = UserDefaults.standard.data(forKey: Keys.settings.rawValue) else { return value }
+            do {
+                param = try decoder.decode([GamePlaySettings : Bool].self, from: data) as! T
+            } catch {
+                print(error.localizedDescription)
+            }
+        case _ as Array<Question>:
+            guard let data: Memento = UserDefaults.standard.data(forKey: Keys.questions.rawValue) else { return value }
+            do {
+                param = try decoder.decode([Question].self, from: data) as! T
+            } catch {
+                print(error.localizedDescription)
+            }
+        default:
+            print("Memento is not tuned for that parameter type")
+            return value
         }
         
-        do {
-            return try decoder.decode([Record].self, from: data)
-        } catch {
-            print(error.localizedDescription)
-            return []
-        }
-    }
-    
-    func saveSettings(settings: [GamePlaySettings : Bool]) {
-        do {
-            let data: Memento = try encoder.encode(settings)
-            UserDefaults.standard.setValue(data, forKey: keyForSettings)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    func loadSettings() -> [GamePlaySettings : Bool] {
-        guard let data: Memento = UserDefaults.standard.data(forKey: keyForSettings) else {
-            return defaultSettings
-        }
+        return param
         
-        do {
-            return try decoder.decode([GamePlaySettings : Bool].self, from: data)
-        } catch {
-            print(error.localizedDescription)
-            return defaultSettings
-
-        }
-    }
-    
-    func saveQuestions(questions: [Question]) {
-        do {
-            let data: Memento = try encoder.encode(questions)
-            UserDefaults.standard.setValue(data, forKey: keyForQuestions)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    func loadQuestions() -> [Question] {
-        guard let data: Memento = UserDefaults.standard.data(forKey: keyForQuestions) else {
-            return defaultQuestionsBase
-        }
-        
-        do {
-            return try decoder.decode([Question].self, from: data)
-        } catch {
-            print(error.localizedDescription)
-            return defaultQuestionsBase
-
-        }
     }
 }

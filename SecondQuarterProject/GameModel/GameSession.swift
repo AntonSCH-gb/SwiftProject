@@ -9,55 +9,48 @@ import Foundation
 
 class GameSession {
     
-    var questionsForGame: [Question]
+    private var questionsForGame: [Question]
+    private let questionSequenceStrategy: ShuffleQuestionStrategy
     
-    var currentQuestion: Question?
-    
+    var currentQuestion: Question
     let questionsInSession: Int
-    
     var wrightAnswersCount = Observable<Int>.init(0)
     
-    let questionSequenceStrategy: ShuffleQuestionStrategy
+    enum CheckAnswerResult {
+        case wrightAndContinue, wrightAndFinish, wrongAndFinish, isNoQuestion
+    }
     
-    func checkAnswerAndGoNext (answer: String) -> (wrightAnswer: Bool, finish: Bool) {
-        
-        guard let currentQuestion = currentQuestion else { return (false, false) }
-        
+    func checkAnswerAndGoNext (answer: String) -> CheckAnswerResult? {
+                
         if answer == currentQuestion.whriteAnswer, self.questionsForGame.count != 0 {
+            
             self.wrightAnswersCount.value += 1
+            self.currentQuestion = questionsForGame.remove(at: 0)
             
-            self.currentQuestion = questionSequenceStrategy.getQuestionFromList(questions: &self.questionsForGame)
-            
-            return (true, false)
+            return .wrightAndContinue
             
         } else if answer == currentQuestion.whriteAnswer, self.questionsForGame.count == 0 {
             
             self.wrightAnswersCount.value += 1
             
-            return (true, true)
+            return .wrightAndFinish
             
         } else {
             
-            return (false, true)
+            return .wrongAndFinish
             
         }
     }
     
-
-    
     init?(questions: [Question], shuffled: Bool) {
         
-        self.questionSequenceStrategy = shuffled ? getRandomQuestionStrategy() : getNextBySequenceQuestionStrategy()
+        self.questionSequenceStrategy = shuffled ? ShuffledQuestions() : UnShuffledQuestions()
         
-        self.questionsForGame = questions
+        self.questionsForGame = questionSequenceStrategy.fetchQuestions()
         
         self.questionsInSession = questionsForGame.count
         
-        guard questionsInSession != 0 else { return nil }
-        
-        self.currentQuestion = questionSequenceStrategy.getQuestionFromList(questions: &self.questionsForGame)
+        self.currentQuestion = questionsForGame.remove(at: 0)
         
     }
-    
-    
 }

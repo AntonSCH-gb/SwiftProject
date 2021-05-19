@@ -8,22 +8,18 @@
 import Foundation
 
 protocol ShuffleQuestionStrategy {
-    func getQuestionFromList (questions: inout [Question])  -> Question?
+//    func getQuestionFromList (questions: inout [Question])  -> Question?
+    func fetchQuestions () -> [Question]
 }
 
-final class getRandomQuestionStrategy: ShuffleQuestionStrategy {
-    func getQuestionFromList (questions: inout [Question]) -> Question? {
-        let questionsCount = questions.count
-        guard questionsCount != 0 else { return nil }
-        return questions.remove(at: Int.random(in: 0..<questionsCount))
-        
+final class ShuffledQuestions: ShuffleQuestionStrategy {
+    func fetchQuestions() -> [Question] {
+        return questions.shuffled()
     }
 }
 
-final class getNextBySequenceQuestionStrategy: ShuffleQuestionStrategy {
-    func getQuestionFromList (questions: inout [Question]) -> Question? {
-        let questionsCount = questions.count
-        guard questionsCount != 0 else { return nil }
-        return questions.remove(at: 0)
+final class UnShuffledQuestions: ShuffleQuestionStrategy {
+    func fetchQuestions() -> [Question] {
+        return questions
     }
 }
