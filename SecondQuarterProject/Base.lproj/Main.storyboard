@@ -172,10 +172,10 @@
                                     <constraint firstItem="GrX-ai-c49" firstAttribute="leading" secondItem="x9m-mg-oDH" secondAttribute="leading" id="QKn-t5-HYb"/>
                                     <constraint firstItem="x9m-mg-oDH" firstAttribute="top" secondItem="GrX-ai-c49" secondAttribute="bottom" constant="10" id="UAr-TN-Vo0"/>
                                     <constraint firstItem="Ecs-Hu-pER" firstAttribute="leading" secondItem="sAR-iQ-lWN" secondAttribute="leading" multiplier="0.1" constant="50" id="a82-9J-zPy"/>
+                                    <constraint firstItem="QJk-el-aYe" firstAttribute="centerX" secondItem="sAR-iQ-lWN" secondAttribute="centerX" id="bqm-nA-XuL"/>
                                     <constraint firstAttribute="bottom" secondItem="qIi-dC-pBf" secondAttribute="bottom" constant="87" id="bux-og-9FM"/>
                                     <constraint firstItem="Ecs-Hu-pER" firstAttribute="top" secondItem="Tbg-ZR-8Lc" secondAttribute="bottom" constant="22.5" id="e3K-lv-VHg"/>
                                     <constraint firstItem="Tbg-ZR-8Lc" firstAttribute="top" secondItem="sAR-iQ-lWN" secondAttribute="top" constant="18" id="eRV-ZA-1uS"/>
-                                    <constraint firstItem="OGh-6U-pe4" firstAttribute="centerX" secondItem="QJk-el-aYe" secondAttribute="centerX" id="gAL-9m-NKZ"/>
                                     <constraint firstItem="GrX-ai-c49" firstAttribute="trailing" secondItem="x9m-mg-oDH" secondAttribute="trailing" id="hml-EI-jzT"/>
                                     <constraint firstAttribute="trailing" secondItem="Ecs-Hu-pER" secondAttribute="trailing" constant="50" id="kfx-nN-AJB"/>
                                     <constraint firstItem="QJk-el-aYe" firstAttribute="centerX" secondItem="qIi-dC-pBf" secondAttribute="centerX" id="mGz-03-nrx"/>
